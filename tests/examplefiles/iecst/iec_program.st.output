@@ -1,0 +1,133 @@
+'PROGRAM'     Keyword
+' '           Text.Whitespace
+'Monitor_Start_Stop' Name
+'          '  Text.Whitespace
+'// Actual Program\n' Comment.Single
+
+'    '        Text.Whitespace
+'VAR_EXTERNAL' Name
+'\n'          Text.Whitespace
+
+'        '    Text.Whitespace
+'Start_Stop'  Name
+'  '          Text.Whitespace
+':'           Operator
+' '           Text.Whitespace
+'BOOL'        Keyword.Type
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'        '    Text.Whitespace
+'ON_OFF'      Name
+'      '      Text.Whitespace
+':'           Operator
+' '           Text.Whitespace
+'BOOL'        Keyword.Type
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'END_VAR'     Keyword
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'VAR'         Keyword
+'                             ' Text.Whitespace
+'// Temporary variables for logic handling\n' Comment.Single
+
+'        '    Text.Whitespace
+'ONS_Trig'    Name
+'    '        Text.Whitespace
+':'           Operator
+' '           Text.Whitespace
+'BOOL'        Keyword.Type
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'        '    Text.Whitespace
+'Rising_ONS'  Name
+'  '          Text.Whitespace
+':'           Operator
+' '           Text.Whitespace
+'BOOL'        Keyword.Type
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'END_VAR'     Keyword
+'\n'          Text.Whitespace
+
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'// Start of Logic\n' Comment.Single
+
+'    '        Text.Whitespace
+'// Catch the Rising Edge One Shot of the Start_Stop input\n' Comment.Single
+
+'    '        Text.Whitespace
+'ONS_Trig'    Name
+'    '        Text.Whitespace
+':='          Operator
+' '           Text.Whitespace
+'Start_Stop'  Name
+' '           Text.Whitespace
+'AND'         Operator.Word
+' '           Text.Whitespace
+'NOT'         Operator.Word
+' '           Text.Whitespace
+'Rising_ONS'  Name
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'// Main Logic for Run_Contact -- Toggle ON / Toggle OFF ---\n' Comment.Single
+
+'    '        Text.Whitespace
+'ON_OFF'      Name
+' '           Text.Whitespace
+':='          Operator
+' '           Text.Whitespace
+'('           Punctuation
+'ONS_Trig'    Name
+' '           Text.Whitespace
+'AND'         Operator.Word
+' '           Text.Whitespace
+'NOT'         Operator.Word
+' '           Text.Whitespace
+'ON_OFF'      Name
+')'           Punctuation
+' '           Text.Whitespace
+'OR'          Operator.Word
+' '           Text.Whitespace
+'('           Punctuation
+'ON_OFF'      Name
+' '           Text.Whitespace
+'AND'         Operator.Word
+' '           Text.Whitespace
+'NOT'         Operator.Word
+' '           Text.Whitespace
+'ONS_Trig'    Name
+')'           Punctuation
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'// Rising One Shot logic   \n' Comment.Single
+
+'    '        Text.Whitespace
+'Rising_ONS'  Name
+' '           Text.Whitespace
+':='          Operator
+' '           Text.Whitespace
+'Start_Stop'  Name
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'END_PROGRAM' Keyword
+'\n'          Text.Whitespace

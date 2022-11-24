@@ -11,7 +11,8 @@
 
 import re
 
-from pygments.lexer import RegexLexer, include, bygroups, using, this, words
+from pygments.lexer import RegexLexer, include, bygroups, using, this, \
+    default, words
 from pygments.token import Text, Comment, Operator, Keyword, Name, String, \
     Number, Punctuation, Whitespace
 
@@ -51,6 +52,9 @@ class IecstLexer(RegexLexer):
     _comment_single = r'//(?:.|(?<=\\)\n)*\n'
     _comment_multiline = r'\((?:\\\n)?[*](?:[^*]|[*](?!(?:\\\n)?/))*[*](?:\\\n)?\)'
 
+    # Regex to match optional comments
+    _possible_comments = rf'\s*(?:(?:(?:{_comment_single})|(?:{_comment_multiline}))\s*)*'
+
     tokens = {
         'whitespace': [
             # Labels:
@@ -63,23 +67,27 @@ class IecstLexer(RegexLexer):
             (r'/(\\\n)?[*][\w\W]*', Comment.Multiline),
         ],
         'keywords': [
-            (words(('if', 'then', 'elsif', 'else', 'end_if', 'for', 'do',
-                    'end_for', 'while', 'end_while', 'repeat', 'until', 'break',
-                    'continue', 'return', 'end_repeat', 'constant', 'var',
-                    'var_input', 'var_output', 'var_stat', 'var_in_out', 'of',
-                    'var_global', 'end_var', 'public', 'private', 'internal',
-                    'protected', 'function', 'program', 'function_block',
-                    'case', 'end_case', 'end_function', 'end_program',
-                    'end_function_block', 
+            (words(('IF', 'THEN', 'ELSIF', 'ELSE', 'END_IF', 'FOR', 'DO',
+                    'END_FOR', 'WHILE', 'END_WHILE', 'REPEAT', 'UNTIL', 'BREAK',
+                    'CONTINUE', 'RETURN', 'END_REPEAT', 'CONSTANT', 'VAR',
+                    'VAR_INPUT', 'VAR_OUTPUT', 'VAR_STAT', 'VAR_IN_OUT', 'OF',
+                    'VAR_GLOBAL', 'END_VAR', 'PUBLIC', 'PRIVATE', 'INTERNAL',
+                    'PROTECTED', 'FUNCTION', 'PROGRAM', 'FUNCTION_BLOCK',
+                    'CASE', 'END_CASE', 'END_FUNCTION', 'END_PROGRAM',
+                    'END_FUNCTION_BLOCK', 'MOD', 'ABS', 'ACOS', 'ASIN', 'ATAN',
+                    'COS', 'EXP', 'EXPT', 'LN', 'LOG', 'SIN', 'SQRT', 'TAN',
+                    'SEL', 'MAX', 'MIN', 'LIMIT', 'MUX', 'SHL', 'SHR', 'ROL',
+                    'ROR', 'INDEXOF', 'SIZEOF', 'ADR', 'REF', 'ADRINST',
+                    'BITADR', 'ADD', 'MUL', 'DIV', 'SUB', 'TRUNC', 'MOVE',
                     ), suffix=r'\b'),
              Keyword),
         ],
         'types': [
-            (words(('bool', 'byte', 'word', 'dword', 'lword', 'sint', 'usint',
-                    'int', 'uint', 'dint', 'udint', 'udint', 'lint', 'ulint',
-                    'real', 'lreal', 'string', 'wstring', 'time', 'ltime',
-                    'time_of_day', 'tod', 'date', 'date_and_time', 'dt', 
-                    'pointer', 'array', 'reference'),
+            (words(('BOOL', 'BYTE', 'WORD', 'DWORD', 'LWORD', 'SINT', 'USINT',
+                    'INT', 'UINT', 'DINT', 'UDINT', 'UDINT', 'LINT', 'ULINT',
+                    'REAL', 'LREAL', 'STRING', 'WSTRING', 'TIME', 'LTIME',
+                    'TIME_OF_DAY', 'TOD', 'DATE', 'DATE_AND_TIME', 'DT', 
+                    'POINTER', 'ARRAY', 'REFERENCE'),
                     suffix=r'\b'),
              Keyword.Type),
         ],
@@ -102,13 +110,15 @@ class IecstLexer(RegexLexer):
             (r'(-)?0[bB][01](\'?[01])*' + _intsuffix, Number.Bin),
             (r'(-)?0(\'?[0-7])+' + _intsuffix, Number.Oct),
             (r'(-)?' + _decpart + _intsuffix, Number.Integer),
-            (r'(:=)|\+|-|\*|/|>|<', Operator),
+            (r':=|:|\+|-|\*|/|>|<', Operator),
             (r'''(?x)\b(?:
-                and|or|not|mod|in
+                AND|OR|NOT|
+                TO_(BOOL|BYTE|D?L?WORD|L?TIME|DATE|DT|TOD|W?CHAR|W?STRING|U?S?D?L?INT|L?REAL)|
+                (ANY|BOOL|BYTE|D?L?WORD|L?TIME|DATE|DT|TOD|W?CHAR|W?STRING|U?S?D?L?INT|L?REAL)_TO_(BOOL|BYTE|D?L?WORD|L?TIME|DATE|DT|TOD|W?CHAR|W?STRING|U?S?D?L?INT|L?REAL)
               )\b''',
              Operator.Word),
             (r'[()\[\],.]', Punctuation),
-            (r'(true|false)\b', Name.Builtin),
+            (r'(true|false|null)\b', Name.Builtin),
             (_ident, Name)
         ],
         'string': [
@@ -122,5 +132,13 @@ class IecstLexer(RegexLexer):
         'root': [
             include('whitespace'),
             include('keywords'),
-        ]
+            include('types'),
+            default('statement'),
+        ],
+        'statement': [
+            include('whitespace'),
+            include('statements'),
+            (r'\}', Punctuation),
+            (r'[{;]', Punctuation, '#pop'),
+        ],
     }

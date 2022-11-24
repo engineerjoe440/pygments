@@ -1,0 +1,65 @@
+'(* simple state machine *)' Comment.Multiline
+'\n'          Text.Whitespace
+
+'TxtState'    Name
+' '           Text.Whitespace
+':='          Operator
+' '           Text.Whitespace
+'STATES'      Name
+'['           Punctuation
+'StateMachine' Name
+']'           Punctuation
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'\n'          Text.Whitespace
+
+'CASE'        Keyword
+' '           Text.Whitespace
+'StateMachine' Name
+' '           Text.Whitespace
+'OF'          Keyword
+'\n'          Text.Whitespace
+
+'   '         Text.Whitespace
+'1'           Literal.Number.Integer
+':'           Operator
+' '           Text.Whitespace
+'ClosingValve' Name
+'('           Punctuation
+')'           Punctuation
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'      '      Text.Whitespace
+'StateMachine' Name
+' '           Text.Whitespace
+':='          Operator
+' '           Text.Whitespace
+'2'           Literal.Number.Integer
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'   '         Text.Whitespace
+'2'           Literal.Number.Integer
+':'           Operator
+' '           Text.Whitespace
+'OpeningValve' Name
+'('           Punctuation
+')'           Punctuation
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'ELSE'        Keyword
+'\n'          Text.Whitespace
+
+'    '        Text.Whitespace
+'BadCase'     Name
+'('           Punctuation
+')'           Punctuation
+';'           Punctuation
+'\n'          Text.Whitespace
+
+'END_CASE'    Keyword
+';'           Punctuation
+'\n'          Text.Whitespace
