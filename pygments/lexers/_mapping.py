@@ -213,6 +213,7 @@ LEXERS = {
     'IDLLexer': ('pygments.lexers.idl', 'IDL', ('idl',), ('*.pro',), ('text/idl',)),
     'IconLexer': ('pygments.lexers.unicon', 'Icon', ('icon',), ('*.icon', '*.ICON'), ()),
     'IdrisLexer': ('pygments.lexers.haskell', 'Idris', ('idris', 'idr'), ('*.idr',), ('text/x-idris',)),
+    'IecstLexer': ('pygments.lexers.iecst', 'IEC Structured Text', ('iecst', 'st'), ('*.st',), ('text/x-iecst',)),
     'IgorLexer': ('pygments.lexers.igor', 'Igor', ('igor', 'igorpro'), ('*.ipf',), ('text/ipf',)),
     'Inform6Lexer': ('pygments.lexers.int_fiction', 'Inform 6', ('inform6', 'i6'), ('*.inf',), ()),
     'Inform6TemplateLexer': ('pygments.lexers.int_fiction', 'Inform 6 template', ('i6t',), ('*.i6t',), ()),
