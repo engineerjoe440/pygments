@@ -1,10 +1,10 @@
 """
-    pygments.lexers.pascal
-    ~~~~~~~~~~~~~~~~~~~~~~
+    pygments.lexers.iecst
+    ~~~~~~~~~~~~~~~~~~~~~
 
-    Lexers for Pascal family languages.
+    Lexers for IEC 61131 structured text language.
 
-    :copyright: Copyright 2006-2022 by the Pygments team, see AUTHORS.
+    :copyright: Copyright 2006-2023 by the Pygments team, see AUTHORS.
     :license: BSD, see LICENSE for details.
 """
 
@@ -35,10 +35,16 @@ class IecstLexer(Lexer):
     mimetypes = ['text/x-iecst']
 
     BLOCK_KEYWORDS = {
-        'begin', 'class', 'const', 'constructor', 'destructor', 'end',
-        'finalization', 'function', 'implementation', 'initialization',
-        'label', 'library', 'operator', 'procedure', 'program', 'property',
-        'record', 'threadvar', 'type', 'unit', 'uses', 'var'
+        'function', 'function_block', 'method', 'program', 'property',
+        'var', 'var_input', 'var_output', 'var_in_out', 'var_stat', 'end_var',
+        'end_function', 'end_function_block', 'end_method', 'end_program',
+        'end_if', 'end_for', 'end_property', 'end_while', 'if', 'while', 'do',
+        'repeat', 'for', 'by', 'to', 'configuration', 'end_configuration',
+        'action', 'end_action', 'transition', 'end_transition', 'library',
+        'end_library', 'type', 'end_type', 'folder', 'end_folder', 'struct',
+        'end_struct', 'channel', 'end_channel', 'resource', 'end_resource',
+        'step', 'end_step', 'initial_step', 'namespace', 'end_namespace',
+        'interface', 'end_interface', 'var_temp', 'var_global', 'var_external'
     }
 
     FUNCTION_MODIFIERS = {
@@ -51,25 +57,15 @@ class IecstLexer(Lexer):
     # XXX: those aren't global. but currently we know no way for defining
     #      them just for the type context.
     DIRECTIVES = {
-        'absolute', 'abstract', 'assembler', 'cppdecl', 'default', 'far',
-        'far16', 'forward', 'index', 'oldfpccall', 'private', 'protected',
-        'published', 'public'
+        'internal', 'private', 'protected', 'public'
     }
 
     BUILTIN_TYPES = {
-        'ansichar', 'ansistring', 'bool', 'boolean', 'byte', 'bytebool',
-        'cardinal', 'char', 'comp', 'currency', 'double', 'dword',
-        'extended', 'int64', 'integer', 'iunknown', 'longbool', 'longint',
-        'longword', 'pansichar', 'pansistring', 'pbool', 'pboolean',
-        'pbyte', 'pbytearray', 'pcardinal', 'pchar', 'pcomp', 'pcurrency',
-        'pdate', 'pdatetime', 'pdouble', 'pdword', 'pextended', 'phandle',
-        'pint64', 'pinteger', 'plongint', 'plongword', 'pointer',
-        'ppointer', 'pshortint', 'pshortstring', 'psingle', 'psmallint',
-        'pstring', 'pvariant', 'pwidechar', 'pwidestring', 'pword',
-        'pwordarray', 'pwordbool', 'real', 'real48', 'shortint',
-        'shortstring', 'single', 'smallint', 'string', 'tclass', 'tdate',
-        'tdatetime', 'textfile', 'thandle', 'tobject', 'ttime', 'variant',
-        'widechar', 'widestring', 'word', 'wordbool'
+        'bool', 'byte', 'sint', 'int', 'dint', 'lint', 'usint', 'uint', 'udint',
+        'ulint', 'pointer', 'real', 'lreal', 'string', 'time', 'tod', 'word',
+        'dword', 'lword', 'bit', '__xword', 'date', 'date_and_time', 'array',
+        'time_of_day', 'wstring', 'ref_to', 'any_num', 'any_int', 'any_string',
+        'any', 'dt'
     }
 
     BUILTIN_UNITS = {
@@ -224,44 +220,8 @@ class IecstLexer(Lexer):
     }
 
     ASM_INSTRUCTIONS = {
-        'aaa', 'aad', 'aam', 'aas', 'adc', 'add', 'and', 'arpl', 'bound',
-        'bsf', 'bsr', 'bswap', 'bt', 'btc', 'btr', 'bts', 'call', 'cbw',
-        'cdq', 'clc', 'cld', 'cli', 'clts', 'cmc', 'cmova', 'cmovae',
-        'cmovb', 'cmovbe', 'cmovc', 'cmovcxz', 'cmove', 'cmovg',
-        'cmovge', 'cmovl', 'cmovle', 'cmovna', 'cmovnae', 'cmovnb',
-        'cmovnbe', 'cmovnc', 'cmovne', 'cmovng', 'cmovnge', 'cmovnl',
-        'cmovnle', 'cmovno', 'cmovnp', 'cmovns', 'cmovnz', 'cmovo',
-        'cmovp', 'cmovpe', 'cmovpo', 'cmovs', 'cmovz', 'cmp', 'cmpsb',
-        'cmpsd', 'cmpsw', 'cmpxchg', 'cmpxchg486', 'cmpxchg8b', 'cpuid',
-        'cwd', 'cwde', 'daa', 'das', 'dec', 'div', 'emms', 'enter', 'hlt',
-        'ibts', 'icebp', 'idiv', 'imul', 'in', 'inc', 'insb', 'insd',
-        'insw', 'int', 'int01', 'int03', 'int1', 'int3', 'into', 'invd',
-        'invlpg', 'iret', 'iretd', 'iretw', 'ja', 'jae', 'jb', 'jbe',
-        'jc', 'jcxz', 'jcxz', 'je', 'jecxz', 'jg', 'jge', 'jl', 'jle',
-        'jmp', 'jna', 'jnae', 'jnb', 'jnbe', 'jnc', 'jne', 'jng', 'jnge',
-        'jnl', 'jnle', 'jno', 'jnp', 'jns', 'jnz', 'jo', 'jp', 'jpe',
-        'jpo', 'js', 'jz', 'lahf', 'lar', 'lcall', 'lds', 'lea', 'leave',
-        'les', 'lfs', 'lgdt', 'lgs', 'lidt', 'ljmp', 'lldt', 'lmsw',
-        'loadall', 'loadall286', 'lock', 'lodsb', 'lodsd', 'lodsw',
-        'loop', 'loope', 'loopne', 'loopnz', 'loopz', 'lsl', 'lss', 'ltr',
-        'mov', 'movd', 'movq', 'movsb', 'movsd', 'movsw', 'movsx',
-        'movzx', 'mul', 'neg', 'nop', 'not', 'or', 'out', 'outsb', 'outsd',
-        'outsw', 'pop', 'popa', 'popad', 'popaw', 'popf', 'popfd', 'popfw',
-        'push', 'pusha', 'pushad', 'pushaw', 'pushf', 'pushfd', 'pushfw',
-        'rcl', 'rcr', 'rdmsr', 'rdpmc', 'rdshr', 'rdtsc', 'rep', 'repe',
-        'repne', 'repnz', 'repz', 'ret', 'retf', 'retn', 'rol', 'ror',
-        'rsdc', 'rsldt', 'rsm', 'sahf', 'sal', 'salc', 'sar', 'sbb',
-        'scasb', 'scasd', 'scasw', 'seta', 'setae', 'setb', 'setbe',
-        'setc', 'setcxz', 'sete', 'setg', 'setge', 'setl', 'setle',
-        'setna', 'setnae', 'setnb', 'setnbe', 'setnc', 'setne', 'setng',
-        'setnge', 'setnl', 'setnle', 'setno', 'setnp', 'setns', 'setnz',
-        'seto', 'setp', 'setpe', 'setpo', 'sets', 'setz', 'sgdt', 'shl',
-        'shld', 'shr', 'shrd', 'sidt', 'sldt', 'smi', 'smint', 'smintold',
-        'smsw', 'stc', 'std', 'sti', 'stosb', 'stosd', 'stosw', 'str',
-        'sub', 'svdc', 'svldt', 'svts', 'syscall', 'sysenter', 'sysexit',
-        'sysret', 'test', 'ud1', 'ud2', 'umov', 'verr', 'verw', 'wait',
-        'wbinvd', 'wrmsr', 'wrshr', 'xadd', 'xbts', 'xchg', 'xlat',
-        'xlatb', 'xor'
+        'add', 'and', 'div', 'in', 'mov', 'mul', 'neg', 'nop', 'not', 'or',
+        'sub', 'xor', 'lt', 'leq', 'gt', 'geq'
     }
 
     def __init__(self, **options):
